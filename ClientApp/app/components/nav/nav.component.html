@@ -1,0 +1,5 @@
+﻿<ul class="nav-ul">
+    <li class="btn btn-lg nav-btn" *ngFor="let nav of navItems" (click)="onSelectNav(nav)">{{nav.name}}</li>
+</ul>
+<h1 *ngIf="navItems[0].isActive">Hello</h1>
+<!--<add-absence *ngIf="navItems[1].isActive"></add-absence>-->
