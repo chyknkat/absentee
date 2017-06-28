@@ -1,24 +1,17 @@
-﻿import { Component, Input, OnInit } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { Absence } from "../../absence";
-import * as $ from 'jquery';
-declare var $: any;
 
 @Component({
     selector: 'add-absence',
     templateUrl: '/add-absence.component.html',
     styleUrls: ['/add-absence.component.css']
 })
-export class AddAbsenceComponent implements OnInit {
+export class AddAbsenceComponent {
     public hasError: boolean = false;
     public errorMessage: string = "";
     @Input() absence: Absence = new Absence(new Date(), new Date(), "", "");
 
-    ngOnInit() {
-        //$(() => {
-        //    $(".datepicker").datepicker();
-        //});
-    }
-    public onAbsenceSubmit() {
+   public onAbsenceSubmit() {
         this.clearErrors();
 
         if (this.absence.name.trim() === "") {

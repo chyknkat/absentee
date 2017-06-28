@@ -31,6 +31,7 @@ module.exports = (env) => {
                 'es6-promise',
                 'event-source-polyfill',
                 'jquery',
+                'ngx-bootstrap',
                 'zone.js',
             ]
         },
