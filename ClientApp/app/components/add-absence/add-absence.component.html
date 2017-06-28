@@ -1,0 +1,26 @@
+﻿<div class="col-lg-4"></div>
+<div class="col-lg-4">
+    <form #absenceForm="ngForm">
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="absence.name" placeholder="Name" name="name" id="name" required />
+        </div>
+        <div class="form-group">
+            <label for="fromDate">From Date</label>
+            <input type="text" class="form-control date-picker" [(ngModel)]="absence.fromDateString" placeholder="From" name="fromDate" id="fromDate" required />
+        </div>
+        <div class="form-group">
+            <label for="toDate">To Date</label>
+            <input type="text" class="form-control date-picker" [(ngModel)]="absence.toDateString" placeholder="To" name="toDate" id="toDate" required />
+        </div>
+        <div class="form-group">
+            <label for="comments">Comments</label>
+            <input type="text" class="form-control" [(ngModel)]="absence.comments" placeholder="Comments" name="comments" id="comments" />
+        </div>
+
+        <button type="submit" class="btn btn-success" (click)="onAbsenceSubmit()">Submit</button>
+        <p *ngIf="hasError" class="error-message">{{errorMessage}}</p>
+    </form>
+</div>
+<div class="col-lg-4"></div>
