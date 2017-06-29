@@ -25,12 +25,12 @@ export class AddAbsenceComponent {
         }
 
         if (this.absence.fromDate < moment().add('days', 1)) {
-            this.setErrorMessage("From date must be in the future");
+            this.setErrorMessage("From Date must be in the future");
             return;
         }
 
-        if (this.absence.toDate < this.absence.fromDate) {
-            this.setErrorMessage("To date must be later than from date.");
+        if (this.absence.toDate <= this.absence.fromDate) {
+            this.setErrorMessage("Back in Office Date must be later than From Date.");
             return;
         }
 
