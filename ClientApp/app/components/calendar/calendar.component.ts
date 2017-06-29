@@ -20,24 +20,27 @@ export class CalendarComponent implements OnInit {
         };
         this.events = [
             {
-                "title": "All Day Event",
-                "start": "2017-07-01"
+                "title": "Katrina",
+                "start": "2017-07-03",
+                "end": "2017-07-04"
             },
             {
-                "title": "Long Event",
+                "title": "Kristy",
                 "start": "2017-07-07",
-                "end": "2017-07-10"
+                "end": "2017-07-11"
             },
             {
-                "title": "Repeating Event",
-                "start": "2017-07-09T16:00:00"
+                "title": "Adam",
+                "start": "2017-07-10",
+                "end": "2017-07-11"
             },
             {
-                "title": "Repeating Event",
-                "start": "2017-07-16T16:00:00"
+                "title": "Chris",
+                "start": "2017-07-11",
+                "end": "2017-07-15"
             },
             {
-                "title": "Conference",
+                "title": "Sree",
                 "start": "2017-07-11",
                 "end": "2017-07-13"
             }
