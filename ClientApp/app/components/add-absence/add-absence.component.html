@@ -25,6 +25,7 @@
 
         <button type="submit" class="btn btn-success" (click)="onAbsenceSubmit()">Submit</button>
         <p *ngIf="hasError" class="error-message">{{errorMessage}}</p>
+        <p *ngIf="isSuccessful" class="success-message">Your future absence has been saved.</p>
     </form>
 </div>
 <div class="col-lg-2"></div>
