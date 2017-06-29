@@ -33,7 +33,7 @@ module.exports = (env) => {
                 'fullcalendar',
                 'fullcalendar/dist/fullcalendar.min.css',
                 'font-awesome/css/font-awesome.css',
-                'primeng/resources/themes/bootstrap/theme.css',
+                'primeng/resources/themes/omega/theme.css',
                 'primeng/resources/primeng.css',
                 'jquery',
                 'moment',
