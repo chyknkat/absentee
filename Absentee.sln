@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Absentee", "Absentee.csproj", "{DC5570A5-85C3-4279-8F34-80008CDFFD38}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Absentee.Database", "Absentee.Database\Absentee.Database.sqlproj", "{8BA36998-43A5-4545-A02A-72EB644694C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +17,17 @@ Global
 		{DC5570A5-85C3-4279-8F34-80008CDFFD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC5570A5-85C3-4279-8F34-80008CDFFD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC5570A5-85C3-4279-8F34-80008CDFFD38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BA36998-43A5-4545-A02A-72EB644694C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BA36998-43A5-4545-A02A-72EB644694C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BA36998-43A5-4545-A02A-72EB644694C1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8BA36998-43A5-4545-A02A-72EB644694C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BA36998-43A5-4545-A02A-72EB644694C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BA36998-43A5-4545-A02A-72EB644694C1}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal
