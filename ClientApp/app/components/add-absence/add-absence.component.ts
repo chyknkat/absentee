@@ -19,18 +19,18 @@ export class AddAbsenceComponent {
         this.clearErrors();
         this.isSuccessful = false;
 
-        if (this.absence.name.trim() === "") {
+        if (this.absence.firstName.trim() === "") {
             this.setErrorMessage("Name cannot be blank.");
             return;
         }
 
-        if (this.absence.fromDate < moment().add('days', 1)) {
-            this.setErrorMessage("From Date must be in the future");
+        if (this.absence.startDate < moment().add('days', 1)) {
+            this.setErrorMessage("Start Date must be in the future");
             return;
         }
 
-        if (this.absence.toDate <= this.absence.fromDate) {
-            this.setErrorMessage("Back in Office Date must be later than From Date.");
+        if (this.absence.endDate <= this.absence.startDate) {
+            this.setErrorMessage("Back in Office Date must be later than Start Date.");
             return;
         }
 
@@ -39,9 +39,9 @@ export class AddAbsenceComponent {
     }
 
     private clearForm(): void {
-        this.absence.fromDate = void 0;
-        this.absence.toDate = void 0;
-        this.absence.name = "";
+        this.absence.startDate = void 0;
+        this.absence.endDate = void 0;
+        this.absence.firstName = "";
         this.absence.comments = "";
     }
 

@@ -1,9 +1,9 @@
 ﻿export class Absence {
     
-    constructor(public fromDate: Date, public toDate: Date, public name: string, public comments: string) {
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-        this.name = name;
+    constructor(public startDate: Date, public endDate: Date, public firstName: string, public comments: string) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.firstName = firstName;
         this.comments = comments;
     }
 }
