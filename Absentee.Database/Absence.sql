@@ -5,5 +5,6 @@
     [StartDate] DATETIME NOT NULL, 
     [EndDate] DATETIME NOT NULL, 
     [Comments] VARCHAR(MAX) NULL, 
+    [Active] BIT NOT NULL, 
     CONSTRAINT [FK_Absence_ToUser] FOREIGN KEY ([UserId]) REFERENCES [Absentee].[User]([Id])
 )
