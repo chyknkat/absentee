@@ -60,5 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema1.sql" />
+    <Build Include="User.sql" />
+    <Build Include="Absence.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Absentee.Database.refactorlog" />
   </ItemGroup>
 </Project>
