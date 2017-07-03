@@ -10,6 +10,7 @@ import { AppComponent } from './components/app/app.component';
 import { NavComponent } from './components/nav/nav.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddAbsenceComponent } from './components/add-absence/add-absence.component';
+import { AbsenceService } from './services/absence.service';
 
 (window as any).jQuery = (window as any).$ = jQuery;
 
@@ -31,5 +32,6 @@ export const sharedConfig: NgModule = {
         FormsModule,
         DatepickerModule.forRoot(),
         ScheduleModule
-    ]
+    ],
+    providers: [ AbsenceService]
 };

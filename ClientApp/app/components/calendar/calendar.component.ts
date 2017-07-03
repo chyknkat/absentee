@@ -1,23 +1,36 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Absence } from "../../absence";
+import { AbsenceService } from '../../services/absence.service';
+import { Observable } from 'rxjs/Observable';
 import { ScheduleModule } from 'primeng/primeng';
 import 'fullcalendar';
 
 @Component({
     selector: 'calendar',
     templateUrl: '/calendar.component.html',
-    styleUrls: ['/calendar.component.css']
+    styleUrls: ['/calendar.component.css'],
+    providers: [ AbsenceService ]
 })
 
 export class CalendarComponent implements OnInit {
+    public absences: Absence[];
     public events: any[];
-    headerConfig: any;
+    public error: any;
+    public headerConfig: any;
+
+    constructor(private absenceService: AbsenceService) { }
+
     ngOnInit(): void {
         this.headerConfig = {
             left: 'today',
             center: 'title',
             right: 'prev,next'
         };
+
+        this.absenceService.getAllAbsences()
+            .subscribe(absences => this.absences = absences,
+            error => this.error = error);
+
         this.events = [
             {
                 "title": "Katrina",
@@ -45,7 +58,20 @@ export class CalendarComponent implements OnInit {
                 "end": "2017-07-13"
             }
         ];
+        if (this.absences) {
+            this.absences.forEach((absence) => {
+                this.events.push({
+                    "title": `${absence.user.firstName} ${absence.comments}`,
+                    "start": absence.startDate,
+                    "end": absence.endDate
+                });
+            });
+        }
+       
+
     }
 
     
+
+
 }

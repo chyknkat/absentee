@@ -1,6 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
 import { Absence } from '../../absence';
 import { User } from '../../user';
+
 import * as moment from 'moment';
 
 declare var moment: any;
