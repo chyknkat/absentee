@@ -1,6 +1,8 @@
 ﻿import { Component, Input } from '@angular/core';
-import { Absence } from "../../absence";
+import { Absence } from '../../absence';
+import { User } from '../../user';
 import * as moment from 'moment';
+
 declare var moment: any;
 
 @Component({
@@ -13,13 +15,13 @@ export class AddAbsenceComponent {
     public isSuccessful: boolean = false;
     public errorMessage: string = "";
     private tomorrow: Date = moment(new Date()).add('days', 1);
-    @Input() absence: Absence = new Absence(this.tomorrow, this.tomorrow, "", "");
+    @Input() absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", [], false), "", false);
 
     public onAbsenceSubmit() {
         this.clearErrors();
         this.isSuccessful = false;
 
-        if (this.absence.firstName.trim() === "") {
+        if (this.absence.user.firstName.trim() === "") {
             this.setErrorMessage("Name cannot be blank.");
             return;
         }
@@ -41,8 +43,13 @@ export class AddAbsenceComponent {
     private clearForm(): void {
         this.absence.startDate = void 0;
         this.absence.endDate = void 0;
-        this.absence.firstName = "";
+        this.absence.user.firstName = "";
+        this.absence.user.lastName = "";
+        this.absence.user.fullName = "";
+        this.absence.user.isActive = false;
+        this.absence.user.team = "";
         this.absence.comments = "";
+        this.absence.isActive = false;
     }
 
     private setErrorMessage(message: string): void {

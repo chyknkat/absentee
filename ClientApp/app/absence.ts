@@ -1,9 +1,17 @@
-﻿export class Absence {
-    
-    constructor(public startDate: Date, public endDate: Date, public firstName: string, public comments: string) {
+﻿import { User } from './user';
+
+export class Absence {
+    public startDate: Date;
+    public endDate: Date;
+    public user: User;
+    public comments: string;
+    public isActive: boolean;
+
+    constructor(startDate: Date, endDate: Date, user: User, comments: string, isActive: boolean) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.firstName = firstName;
+        this.user = user;
         this.comments = comments;
+        this.isActive = isActive;
     }
 }
