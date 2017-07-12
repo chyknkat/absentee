@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import * as jQuery from 'jquery';
 import { DatepickerModule } from 'ngx-bootstrap';
@@ -30,6 +31,7 @@ export const sharedConfig: NgModule = {
             { path: '**', redirectTo: 'calendar' }
         ]),
         FormsModule,
+        HttpModule,
         DatepickerModule.forRoot(),
         ScheduleModule
     ],
