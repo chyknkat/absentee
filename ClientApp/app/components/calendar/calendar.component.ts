@@ -28,9 +28,12 @@ export class CalendarComponent implements OnInit {
         };
 
         this.absenceService.getAllAbsences()
-            .subscribe(absences => this.absences = absences,
+            .subscribe(absences => this.populateEvents(absences),
             error => this.error = error);
+        
+    }
 
+    private populateEvents(absenses: Absence[]): void {
         this.events = [
             {
                 "title": "Katrina",
@@ -58,6 +61,7 @@ export class CalendarComponent implements OnInit {
                 "end": "2017-07-13"
             }
         ];
+        this.absences = absenses;
         if (this.absences) {
             this.absences.forEach((absence) => {
                 this.events.push({
@@ -67,11 +71,7 @@ export class CalendarComponent implements OnInit {
                 });
             });
         }
-       
-
     }
-
-    
 
 
 }
