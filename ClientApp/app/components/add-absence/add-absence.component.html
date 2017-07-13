@@ -3,8 +3,10 @@
     <form #absenceForm="ngForm">
 
         <div class="form-group">
-            <label for="firstName">Name</label>
-            <input type="text" class="form-control" [(ngModel)]="absence.user.firstName" placeholder="First Name" name="firstName" id="firstName" required />
+            <label >Name</label>
+            <select class="form-control"  >
+                <option *ngFor="let user of users" [(ngModel)]="absence.user" name="{{user}}" ngDefaultControl value="user" >{{user.fullName}}</option>
+            </select>
         </div>
         <div class="form-group">
             <div class="col-md-5">
@@ -25,6 +27,8 @@
         <button type="submit" class="btn btn-success" (click)="onAbsenceSubmit()">Submit</button>
         <p *ngIf="hasError" class="error-message">{{errorMessage}}</p>
         <p *ngIf="isSuccessful" class="success-message">Your future absence has been saved.</p>
+        
+        {{absence.user.fullName}}
     </form>
 </div>
 <div class="col-lg-2"></div>
