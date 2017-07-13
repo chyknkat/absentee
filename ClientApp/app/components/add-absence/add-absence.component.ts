@@ -1,7 +1,8 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, OnInit } from '@angular/core';
 import { Absence } from '../../absence';
 import { User } from '../../user';
 import { AbsenceService } from '../../services/absence.service';
+import { UserService } from '../../services/user.service';
 import * as moment from 'moment';
 
 declare var moment: any;
@@ -10,16 +11,24 @@ declare var moment: any;
     selector: 'add-absence',
     templateUrl: '/add-absence.component.html',
     styleUrls: ['/add-absence.component.css'],
-    providers: [AbsenceService]
+    providers: [AbsenceService, UserService]
 })
-export class AddAbsenceComponent {
+export class AddAbsenceComponent implements OnInit {
+    public blankUser: User = new User("", "", "", true);
+    @Input() users: User[] = [this.blankUser];
     public hasError: boolean = false;
     public isSuccessful: boolean = false;
     public errorMessage: string = "";
     private tomorrow: Date = moment(new Date()).add('days', 1);
-    @Input() absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", [], false), "", false);
+    @Input() absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", false), "", false);
 
-    constructor(private absenceService: AbsenceService) { }
+    constructor(private absenceService: AbsenceService, private userService: UserService) { }
+
+    ngOnInit(): void {
+        this.userService.getAllUsers()
+            .subscribe(users => this.populateUsers(users),
+            error => this.setErrorMessage("Error getting users"));
+    }
 
     public onAbsenceSubmit() {
         this.clearErrors();
@@ -42,25 +51,20 @@ export class AddAbsenceComponent {
 
         this.absenceService.addNewAbsence(this.absence)
             .subscribe(response => this.clearForm(), error => this.setErrorMessage("Could not add absence due to server error."));
-        
-        
     }
 
     private clearForm(): void {
-        
-            this.absence.startDate = void 0;
-            this.absence.endDate = void 0;
-            this.absence.user.firstName = "";
-            this.absence.user.lastName = "";
-            this.absence.user.fullName = "";
-            this.absence.user.isActive = false;
-            this.absence.user.team = "";
-            this.absence.comments = "";
-            this.absence.isActive = false;
+        this.absence.startDate = void 0;
+        this.absence.endDate = void 0;
+        this.absence.user.firstName = "";
+        this.absence.user.lastName = "";
+        this.absence.user.fullName = "";
+        this.absence.user.isActive = false;
+        this.absence.user.team = "";
+        this.absence.comments = "";
+        this.absence.isActive = false;
 
-            this.setSuccess();
-        
-        
+        this.setSuccess();
     }
 
     private setErrorMessage(message: string): void {
@@ -78,5 +82,9 @@ export class AddAbsenceComponent {
     private clearErrors(): void {
         this.errorMessage = "";
         this.hasError = false;
+    }
+
+    private populateUsers(users: User[]): void {
+        users.forEach((user) => this.users.push(user));
     }
 }
