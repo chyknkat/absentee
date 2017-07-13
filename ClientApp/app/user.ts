@@ -7,6 +7,7 @@ export class User {
     public team: string;
     public absences: Absence[];
     public isActive: boolean;
+    public id: number;
 
     constructor(firstName: string, lastName: string, team: string, absences: Absence[], isActive: boolean) {
         this.firstName = firstName;

@@ -6,6 +6,7 @@ export class Absence {
     public user: User;
     public comments: string;
     public isActive: boolean;
+    public id: number;
 
     constructor(startDate: Date, endDate: Date, user: User, comments: string, isActive: boolean) {
         this.startDate = startDate;

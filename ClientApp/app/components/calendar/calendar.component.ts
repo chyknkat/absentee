@@ -5,11 +5,15 @@ import { Observable } from 'rxjs/Observable';
 import { ScheduleModule } from 'primeng/primeng';
 import 'fullcalendar';
 
+import * as moment from 'moment';
+
+declare var moment: any;
+
 @Component({
     selector: 'calendar',
     templateUrl: '/calendar.component.html',
     styleUrls: ['/calendar.component.css'],
-    providers: [ AbsenceService ]
+    providers: [AbsenceService]
 })
 
 export class CalendarComponent implements OnInit {
@@ -30,7 +34,7 @@ export class CalendarComponent implements OnInit {
         this.absenceService.getAllAbsences()
             .subscribe(absences => this.populateEvents(absences),
             error => this.error = error);
-        
+
     }
 
     private populateEvents(absenses: Absence[]): void {
@@ -38,7 +42,8 @@ export class CalendarComponent implements OnInit {
             {
                 "title": "Katrina",
                 "start": "2017-07-03",
-                "end": "2017-07-04"
+                "end": "2017-07-04",
+                "allDay": true
             },
             {
                 "title": "Kristy",
@@ -65,9 +70,10 @@ export class CalendarComponent implements OnInit {
         if (this.absences) {
             this.absences.forEach((absence) => {
                 this.events.push({
-                    "title": `${absence.user.firstName} ${absence.comments}`,
+                    "title": `${absence.user.firstName} ${absence.comments === null ? "" : absence.comments} `,
                     "start": absence.startDate,
-                    "end": absence.endDate
+                    "end": absence.endDate,
+                    "allDay": true
                 });
             });
         }
