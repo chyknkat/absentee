@@ -1,7 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
 import { Absence } from '../../absence';
 import { User } from '../../user';
-
+import { AbsenceService } from '../../services/absence.service';
 import * as moment from 'moment';
 
 declare var moment: any;
@@ -9,7 +9,8 @@ declare var moment: any;
 @Component({
     selector: 'add-absence',
     templateUrl: '/add-absence.component.html',
-    styleUrls: ['/add-absence.component.css']
+    styleUrls: ['/add-absence.component.css'],
+    providers: [AbsenceService]
 })
 export class AddAbsenceComponent {
     public hasError: boolean = false;
@@ -17,6 +18,8 @@ export class AddAbsenceComponent {
     public errorMessage: string = "";
     private tomorrow: Date = moment(new Date()).add('days', 1);
     @Input() absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", [], false), "", false);
+
+    constructor(private absenceService: AbsenceService) { }
 
     public onAbsenceSubmit() {
         this.clearErrors();
@@ -37,20 +40,27 @@ export class AddAbsenceComponent {
             return;
         }
 
-        this.clearForm();
-        this.setSuccess();
+        this.absenceService.addNewAbsence(this.absence)
+            .subscribe(response => this.clearForm(), error => this.setErrorMessage("Could not add absence due to server error."));
+        
+        
     }
 
     private clearForm(): void {
-        this.absence.startDate = void 0;
-        this.absence.endDate = void 0;
-        this.absence.user.firstName = "";
-        this.absence.user.lastName = "";
-        this.absence.user.fullName = "";
-        this.absence.user.isActive = false;
-        this.absence.user.team = "";
-        this.absence.comments = "";
-        this.absence.isActive = false;
+        
+            this.absence.startDate = void 0;
+            this.absence.endDate = void 0;
+            this.absence.user.firstName = "";
+            this.absence.user.lastName = "";
+            this.absence.user.fullName = "";
+            this.absence.user.isActive = false;
+            this.absence.user.team = "";
+            this.absence.comments = "";
+            this.absence.isActive = false;
+
+            this.setSuccess();
+        
+        
     }
 
     private setErrorMessage(message: string): void {

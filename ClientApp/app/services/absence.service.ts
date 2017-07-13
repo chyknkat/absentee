@@ -20,9 +20,24 @@ export class AbsenceService {
             .catch(this.handleError);
     }
 
+    addNewAbsence(absence: Absence) {
+        let headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(this.baseUrl + 'Absence/New', absence, options)
+            .map(this.getResponse)
+            .catch(this.handleError);
+    } 
+
     private extractData(res: Response) {
+        if (res.status < 200 || res.status >= 300) {
+            throw new Error('This request has failed ' + res.status);
+        }
         let body = res.json();
         return body || {};
+    }
+
+    private getResponse(res: Response) {
+        return res.ok;
     }
 
     private handleError(error: Response | any) {
