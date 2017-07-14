@@ -4,8 +4,8 @@
 
         <div class="form-group">
             <label >Name</label>
-            <select class="form-control"  >
-                <option *ngFor="let user of users" [(ngModel)]="absence.user" name="user" ngDefaultControl value="{{user}}" >{{user.fullName}}</option>
+            <select class="form-control" [(ngModel)]="absence.user" name="user">
+                <option *ngFor="let user of users"  [ngValue]="user" >{{user.fullName}}</option>
             </select>
         </div>
         <div class="form-group">
