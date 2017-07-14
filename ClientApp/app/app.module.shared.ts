@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import * as jQuery from 'jquery';
-import { DatepickerModule } from 'ngx-bootstrap';
+import { DatepickerModule, ModalModule } from 'ngx-bootstrap';
 import { ScheduleModule } from 'primeng/primeng';
 
 import { AppComponent } from './components/app/app.component';
@@ -34,6 +34,7 @@ export const sharedConfig: NgModule = {
         FormsModule,
         HttpModule,
         DatepickerModule.forRoot(),
+        ModalModule.forRoot(),
         ScheduleModule
     ],
     providers: [ AbsenceService, UserService ]

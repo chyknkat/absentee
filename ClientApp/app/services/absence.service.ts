@@ -27,7 +27,7 @@ export class AbsenceService {
     }
 
     getAbsenceById(absenceId: number): Observable<Absence> {
-        return this.http.get(this.baseUrl + 'Absence/GetById/' + absenceId, this.options)
+        return this.http.get(this.baseUrl + `Absence/GetById/${absenceId}`, this.options)
             .map(this.extractData)
             .catch(this.handleError);
     }

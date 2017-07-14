@@ -1,8 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Absence } from "../../absence";
+import { User } from "../../user";
 import { AbsenceService } from '../../services/absence.service';
 import { Observable } from 'rxjs/Observable';
 import { ScheduleModule } from 'primeng/primeng';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+
 import 'fullcalendar';
 
 import * as moment from 'moment';
@@ -21,6 +24,10 @@ export class CalendarComponent implements OnInit {
     public events: any[];
     public error: any;
     public headerConfig: any;
+    public dialogVisible: boolean = false;
+    public absence: Absence;
+    @ViewChild("absenceEditorModal") public absenceEditorModal: ModalDirective;
+    
 
     constructor(private absenceService: AbsenceService) { }
 
@@ -73,10 +80,22 @@ export class CalendarComponent implements OnInit {
                     "title": `${absence.user.firstName} ${absence.comments === null ? "" : absence.comments} `,
                     "start": absence.startDate,
                     "end": absence.endDate,
-                    "allDay": true
+                    "allDay": true,
+                    "id": absence.id
                 });
             });
         }
+    }
+
+    openAbsenceEditor(e) {
+        this.absenceService.getAbsenceById(e.calEvent.id)
+            .subscribe(absence => {
+                this.absence = absence;
+                this.absenceEditorModal.show();
+                },
+            error => this.error = error);
+        
+        
     }
 
 

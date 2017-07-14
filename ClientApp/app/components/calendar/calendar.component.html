@@ -1,1 +1,18 @@
-﻿<p-schedule [events]="events" [header]="headerConfig"></p-schedule>
+﻿<p-schedule [events]="events" [header]="headerConfig" [editable]="true" (onEventClick)="openAbsenceEditor($event)"></p-schedule>
+
+<div bsModal #absenceEditorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Edit Absence" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Edit Absence</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="absenceEditorModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+
+            </div>
+        </div>
+    </div>
+</div>
