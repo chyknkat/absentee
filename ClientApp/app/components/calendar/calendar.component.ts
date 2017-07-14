@@ -76,13 +76,15 @@ export class CalendarComponent implements OnInit {
         this.absences = absenses;
         if (this.absences) {
             this.absences.forEach((absence) => {
-                this.events.push({
-                    "title": `${absence.user.firstName} ${absence.comments === null ? "" : absence.comments} `,
-                    "start": absence.startDate,
-                    "end": absence.endDate,
-                    "allDay": true,
-                    "id": absence.id
-                });
+                if (absence.isActive) {
+                    this.events.push({
+                        "title": `${absence.user.firstName} ${absence.comments === null ? "" : absence.comments} `,
+                        "start": absence.startDate,
+                        "end": absence.endDate,
+                        "allDay": true,
+                        "id": absence.id
+                    });
+                }
             });
         }
     }
@@ -94,9 +96,19 @@ export class CalendarComponent implements OnInit {
                 this.absenceEditorModal.show();
                 },
             error => this.error = error);
-        
-        
     }
 
+    deleteAbsence() {
+        this.absenceService.toggleAbsenceActiveFlag(this.absence.id, false)
+            .subscribe(response => {
+                    for (var i = 0; i < this.events.length; i++)
+                        if (this.events[i].id === this.absence.id) {
+                            this.events.splice(i, 1);
+                            break;
+                        }
+                    this.absenceEditorModal.hide();
+                },
+                error => this.error = error);
+    }
 
 }
