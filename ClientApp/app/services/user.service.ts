@@ -9,14 +9,38 @@ import { User } from '../user';
 @Injectable()
 export class UserService {
     private baseUrl: string = 'http://localhost:57055/';
+    private headers: Headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
+    private options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http) { }
 
     getAllUsers(): Observable<User[]> {
-        let headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.get(this.baseUrl + 'User/GetAll', options)
+        return this.http.get(this.baseUrl + 'User/GetAll', this.options)
             .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getUserById(userId: number): Observable<User> {
+        return this.http.get(this.baseUrl + 'User/GetById/' + userId, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    addNewUser(user: User) {
+        return this.http.post(this.baseUrl + 'User/New', user, this.options)
+            .map(this.getResponse)
+            .catch(this.handleError);
+    }
+
+    updateUser(user: User) {
+        return this.http.post(this.baseUrl + 'User/Update', user, this.options)
+            .map(this.getResponse)
+            .catch(this.handleError);
+    }
+
+    toggleUserActiveFlag(userId: number, isActive: boolean) {
+        return this.http.post(this.baseUrl + `User/ToggleActive/${userId}/${isActive}`, null, this.options)
+            .map(this.getResponse)
             .catch(this.handleError);
     }
 

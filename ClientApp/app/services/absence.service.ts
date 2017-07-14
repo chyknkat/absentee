@@ -9,24 +9,46 @@ import {Absence} from '../absence';
 @Injectable()
 export class AbsenceService {
     private baseUrl: string = 'http://localhost:57055/';
+    private headers: Headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
+    private options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http) { }
 
     getAllAbsences(): Observable<Absence[]> {
-        let headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.get(this.baseUrl + 'Absence/GetAll', options)
+        return this.http.get(this.baseUrl + 'Absence/GetAll', this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getAbsencesByUser(userId: number): Observable<Absence[]> {
+        return this.http.get(this.baseUrl + 'Absence/GetByUser/' + userId, this.options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getAbsenceById(absenceId: number): Observable<Absence> {
+        return this.http.get(this.baseUrl + 'Absence/GetById/' + absenceId, this.options)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
     addNewAbsence(absence: Absence) {
-        let headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.post(this.baseUrl + 'Absence/New', absence, options)
+        return this.http.post(this.baseUrl + 'Absence/New', absence, this.options)
             .map(this.getResponse)
             .catch(this.handleError);
     } 
+
+    updateAbsence(absence: Absence) {
+        return this.http.post(this.baseUrl + 'Absence/Update', absence, this.options)
+            .map(this.getResponse)
+            .catch(this.handleError);
+    }
+
+    toggleAbsenceActiveFlag(absenceId: number, isActive: boolean) {
+        return this.http.post(this.baseUrl + `Absence/ToggleActive/${absenceId}/${isActive}`, null, this.options)
+            .map(this.getResponse)
+            .catch(this.handleError);
+    }
 
     private extractData(res: Response) {
         if (res.status < 200 || res.status >= 300) {
