@@ -1,5 +1,5 @@
 ﻿<ul class="nav-ul">
-    <li class="btn btn-lg nav-btn" *ngFor="let nav of navItems" (click)="onSelectNav(nav)">{{nav.name}}</li>
+    <li class="btn btn-lg nav-btn" id="{{nav.id}}" *ngFor="let nav of navItems" (click)="onSelectNav(nav)">{{nav.name}}</li>
 </ul>
 
 

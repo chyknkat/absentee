@@ -5,9 +5,13 @@
     color: white;
 }
 
-.nav-btn:hover {
-    background-color: #ff8237;
-}
+    .nav-btn:hover {
+        background-color: #ff8237;
+    }
+
+    .nav-btn.is-active {
+        background-color: #ff8237;
+    }
 
 .nav-ul {
     padding: 20px 0;

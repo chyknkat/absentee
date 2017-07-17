@@ -8,13 +8,15 @@ import { NavItem } from "../../nav-item";
     styleUrls: ['/nav.component.css']
 })
 export class NavComponent {
-    navItems: NavItem[] = [new NavItem("Calendar", true), new NavItem("Add Absence", false), new NavItem("Edit User", false)];
+    navItems: NavItem[] = [new NavItem("calendar", "Calendar", true), new NavItem("absence", "Add Absence", false), new NavItem("editUser", "Edit User", false)];
 
     constructor(private router: Router) { }
 
     onSelectNav(nav: NavItem) {
         this.navItems.forEach((navItem) => navItem.isActive = false);
         nav.isActive = true;
+        $(".nav-btn").removeClass("is-active");
+        $(`#${nav.id}`).addClass("is-active");
         if (nav.name === 'Calendar') {
             this.router.navigate(['calendar']);
         }
