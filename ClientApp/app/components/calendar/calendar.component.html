@@ -28,6 +28,8 @@
                     </div>
                     <button class="btn btn-success" (click)="updateAbsence()">Update</button>
                     <button class="btn btn-danger" (click)="deleteAbsence()">Delete</button>
+                    <p *ngIf="hasError" class="error-message">{{errorMessage}}</p>
+                    <p *ngIf="isSuccessful" class="success-message">Your absence has been updated.</p>
                 </form>
                 
 

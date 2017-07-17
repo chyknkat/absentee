@@ -39,7 +39,7 @@ export class AddAbsenceComponent implements OnInit {
             return;
         }
 
-        if (this.absence.startDate < moment().add('days', 1)) {
+        if (this.absence.startDate < moment()) {
             this.setErrorMessage("Start Date must be in the future");
             return;
         }
