@@ -1,1 +1,13 @@
-﻿
+﻿.error-message {
+    font-size: 1.22em;
+    color: rgb(222, 8, 8);
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.success-message {
+    font-size: 1.22em;
+    color: #3c763d;
+    font-weight: bold;
+    margin-top: 10px;
+}
