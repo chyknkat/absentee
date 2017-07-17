@@ -85,6 +85,10 @@ export class AddAbsenceComponent implements OnInit {
     }
 
     private populateUsers(users: User[]): void {
-        users.forEach((user) => this.users.push(user));
+        users.forEach((user) => {
+            if (user.isActive) {
+                this.users.push(user);
+            }
+        });
     }
 }
