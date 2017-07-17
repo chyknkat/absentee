@@ -11,6 +11,8 @@ import { AppComponent } from './components/app/app.component';
 import { NavComponent } from './components/nav/nav.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddAbsenceComponent } from './components/add-absence/add-absence.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+
 import { AbsenceService } from './services/absence.service';
 import { UserService } from './services/user.service';
 
@@ -22,13 +24,15 @@ export const sharedConfig: NgModule = {
         AppComponent,
         NavComponent,
         CalendarComponent,
-        AddAbsenceComponent
+        AddAbsenceComponent,
+        EditUserComponent
     ],
     imports: [
         RouterModule.forRoot([
             { path: '', redirectTo: 'calendar', pathMatch: 'full' },
             { path: 'calendar', component: CalendarComponent },
             { path: 'addabsence', component: AddAbsenceComponent },
+            { path: 'edituser', component: EditUserComponent },
             { path: '**', redirectTo: 'calendar' }
         ]),
         FormsModule,

@@ -8,7 +8,7 @@ import { NavItem } from "../../nav-item";
     styleUrls: ['/nav.component.css']
 })
 export class NavComponent {
-    navItems: NavItem[] = [new NavItem("Calendar", true), new NavItem("Add Absence", false)];
+    navItems: NavItem[] = [new NavItem("Calendar", true), new NavItem("Add Absence", false), new NavItem("Edit User", false)];
 
     constructor(private router: Router) { }
 
@@ -20,6 +20,9 @@ export class NavComponent {
         }
         if (nav.name === 'Add Absence') {
             this.router.navigate(['addabsence']);
+        }
+        if (nav.name === 'Edit User') {
+            this.router.navigate(['edituser']);
         }
     }
 }
