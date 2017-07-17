@@ -39,13 +39,13 @@ export class AbsenceService {
     } 
 
     updateAbsence(absence: Absence) {
-        return this.http.post(this.baseUrl + 'Absence/Update', absence, this.options)
+        return this.http.put(this.baseUrl + 'Absence/Update', absence, this.options)
             .map(this.getResponse)
             .catch(this.handleError);
     }
 
     toggleAbsenceActiveFlag(absenceId: number, isActive: boolean) {
-        return this.http.post(this.baseUrl + `Absence/ToggleActive/${absenceId}/${isActive}`, null, this.options)
+        return this.http.put(this.baseUrl + `Absence/ToggleActive/${absenceId}/${isActive}`, null, this.options)
             .map(this.getResponse)
             .catch(this.handleError);
     }

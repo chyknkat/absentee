@@ -33,13 +33,13 @@ export class UserService {
     }
 
     updateUser(user: User) {
-        return this.http.post(this.baseUrl + 'User/Update', user, this.options)
+        return this.http.put(this.baseUrl + 'User/Update', user, this.options)
             .map(this.getResponse)
             .catch(this.handleError);
     }
 
     toggleUserActiveFlag(userId: number, isActive: boolean) {
-        return this.http.post(this.baseUrl + `User/ToggleActive/${userId}/${isActive}`, null, this.options)
+        return this.http.put(this.baseUrl + `User/ToggleActive/${userId}/${isActive}`, null, this.options)
             .map(this.getResponse)
             .catch(this.handleError);
     }
