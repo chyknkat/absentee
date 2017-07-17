@@ -25,7 +25,8 @@ export class CalendarComponent implements OnInit {
     public error: any;
     public headerConfig: any;
     public dialogVisible: boolean = false;
-    public absence: Absence;
+    private tomorrow: Date = moment(new Date()).add('days', 1);
+    public absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", false), "", false);
     @ViewChild("absenceEditorModal") public absenceEditorModal: ModalDirective;
     
 

@@ -1,7 +1,7 @@
 ﻿<p-schedule [events]="events" [header]="headerConfig" [editable]="true" (onEventClick)="openAbsenceEditor($event)"></p-schedule>
 
 <div bsModal #absenceEditorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Edit Absence" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title pull-left">Edit Absence</h4>
@@ -10,7 +10,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button class="btn btn-danger" (click)="deleteAbsence()">Delete</button>
+                <form #updateForm="ngForm">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <label for="startDate">Start Date</label>
+                            <datepicker [(ngModel)]="absence.startDate" name="startDate" id="startDate" [showWeeks]="false"></datepicker>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-5">
+                            <label for="endDate">Back in Office Date</label>
+                            <datepicker [(ngModel)]="absence.endDate" name="endDate" id="endDate" [showWeeks]="false"></datepicker>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comments">Comments</label>
+                        <input type="text" class="form-control" [(ngModel)]="absence.comments" placeholder="Comments" name="comments" id="comments" />
+                    </div>
+                    <button class="btn btn-success" (click)="updateAbsence()">Update</button>
+                    <button class="btn btn-danger" (click)="deleteAbsence()">Delete</button>
+                </form>
+                
 
             </div>
         </div>
