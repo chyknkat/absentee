@@ -1,4 +1,4 @@
-﻿<div class="row">
+﻿<div class="row" *ngIf="isEdit">
     <div class="col-lg-3"></div>
     <div class="col-lg-6 form-group">
         <label>Choose User</label>
@@ -9,7 +9,7 @@
                 </select>
             </div>
             <div class="col-lg-3">
-                <button class="btn btn-info">Add User</button>
+                <button class="btn btn-info" (click)="addUserView()">Add User</button>
             </div>
         </div>
     </div>
@@ -34,12 +34,16 @@
                     <option *ngFor="let team of teams" [ngValue]="team">{{team}}</option>
                 </select>
             </div>
-            <button class="btn btn-success" (click)="updateUser()">Update</button>
-            <button class="btn btn-danger" (click)="deleteUser()">Delete</button>
+            <button *ngIf="isEdit" class="btn btn-success" (click)="updateUser()">Update</button>
+            <button *ngIf="isEdit" class="btn btn-danger" (click)="deleteUser()">Delete</button>
+            <button *ngIf="!isEdit" class="btn btn-success" (click)="addNewUser()">Save</button>
+            <button *ngIf="!isEdit" class="btn btn-danger" (click)="isEdit = true">Back</button>
             <p *ngIf="hasError" class="error-message">{{errorMessage}}</p>
             <p *ngIf="isSuccessful" class="success-message">User has been updated.</p>
         </form>
     </div>
     <div class="col-lg-3"></div>
 </div>
+
+
 
