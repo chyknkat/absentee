@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild  } from '@angular/core';
+﻿import { Component, OnInit, ViewChild, AfterViewChecked  } from '@angular/core';
 import { Absence } from "../../absence";
 import { User } from "../../user";
 import { AbsenceService } from '../../services/absence.service';
@@ -19,7 +19,7 @@ declare var moment: any;
     providers: [AbsenceService]
 })
 
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, AfterViewChecked {
     public absences: Absence[];
     public events: any[];
     public error: any;
@@ -46,6 +46,10 @@ export class CalendarComponent implements OnInit {
 
     }
 
+    ngAfterViewChecked(): void {
+        $('.fc-scroller').css('overflow', 'visible');
+        $('.ui-widget-header').css('margin-right', 0);
+    }
     private populateEvents(absenses: Absence[]): void {
         this.events = [
             {
