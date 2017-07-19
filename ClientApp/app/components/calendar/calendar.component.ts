@@ -51,7 +51,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         $('.ui-widget-header').css('margin-right', 0);
     }
     private populateEvents(absenses: Absence[]): void {
-        
+        this.events = [];
         this.absences = absenses;
         if (this.absences) {
             this.absences.forEach((absence) => {
@@ -112,6 +112,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     }
 
     private loadAbsences() {
+        this.absences = [];
         this.absenceService.getAllAbsences()
             .subscribe(absences => this.populateEvents(absences),
                 error => this.error = error);
