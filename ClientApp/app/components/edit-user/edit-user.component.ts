@@ -48,6 +48,14 @@ export class EditUserComponent implements OnInit {
 
     public deleteUser() {
         this.clearErrors();
+        if (this.user.id <= 0 || this.user.id === null || this.user.id === undefined) {
+            this.setErrorMessage("Please choose an existing user.");
+            return;
+        }
+
+        this.userService.toggleUserActiveFlag(this.user.id, false)
+            .subscribe(response => this.resetEditForm(),
+                error => this.setErrorMessage("User could not be deleted due to an error."));
     }
 
     public addUserView() {
@@ -70,7 +78,11 @@ export class EditUserComponent implements OnInit {
             this.setErrorMessage("Team cannot be blank");
             return;
         }
-        this.resetEditForm();
+
+        this.userService.addNewUser(this.user)
+            .subscribe(response => this.resetEditForm(),
+                error => this.setErrorMessage("User could not be created due to an error."));
+
     }
 
     private loadUsers() {
