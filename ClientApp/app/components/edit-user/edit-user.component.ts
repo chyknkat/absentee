@@ -14,7 +14,7 @@ export class EditUserComponent implements OnInit {
     public hasError: boolean = false;
     public isSuccessful: boolean = false;
     public user: User = new User("", "", "", true);
-    public teams: string[] = ["Internal", "External"];
+    public teams: string[] = ["Internal", "External", "IT", "NoTeam"];
     public isEdit:boolean = true;
 
     constructor(private userService: UserService) { }
