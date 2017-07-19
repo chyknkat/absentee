@@ -59,7 +59,7 @@ export class EditUserComponent implements OnInit {
     }
 
     public addUserView() {
-        this.clearForm();
+        this.clearUserFields();
         this.clearErrors();
         this.isEdit = false;
     }
@@ -102,10 +102,10 @@ export class EditUserComponent implements OnInit {
     }
 
     private resetEditForm() {
-        this.clearForm();
+        this.clearUserFields();
         this.setSuccess();
     }
-    private clearForm() {
+    private clearUserFields() {
         this.loadUsers();
         this.user.firstName = "";
         this.user.lastName = "";

@@ -48,19 +48,21 @@ export class AddAbsenceComponent implements OnInit {
         }
 
         this.absenceService.addNewAbsence(this.absence)
-            .subscribe(response => this.clearForm(), error => this.setErrorMessage("Could not add absence due to server error."));
+            .subscribe(response => this.resetAbsenceForm(), error => this.setErrorMessage("Could not add absence due to server error."));
     }
 
-    private clearForm(): void {
+    private resetAbsenceForm(): void {
         this.loadUsers();
+        this.clearAbsenceFields();
+        this.setSuccess();
+    }
 
-        this.absence.startDate = void 0;
-        this.absence.endDate = void 0;
+    private clearAbsenceFields(): void {
+        this.absence.startDate = new Date(this.tomorrow);
+        this.absence.endDate = new Date(this.tomorrow);
         this.absence.user = this.users[0];
         this.absence.comments = "";
         this.absence.isActive = false;
-
-        this.setSuccess();
     }
 
     private setErrorMessage(message: string): void {
