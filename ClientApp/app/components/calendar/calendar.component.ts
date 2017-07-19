@@ -21,7 +21,7 @@ declare var moment: any;
 
 export class CalendarComponent implements OnInit, AfterViewChecked {
     public absences: Absence[];
-    public events: any[];
+    public events: any[] = [];
     public error: any;
     public errorMessage: string = "";
     public hasError: boolean = false;
@@ -51,34 +51,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         $('.ui-widget-header').css('margin-right', 0);
     }
     private populateEvents(absenses: Absence[]): void {
-        this.events = [
-            {
-                "title": "Katrina",
-                "start": "2017-07-03",
-                "end": "2017-07-04",
-                "allDay": true
-            },
-            {
-                "title": "Kristy",
-                "start": "2017-07-07",
-                "end": "2017-07-11"
-            },
-            {
-                "title": "Adam",
-                "start": "2017-07-10",
-                "end": "2017-07-11"
-            },
-            {
-                "title": "Chris",
-                "start": "2017-07-11",
-                "end": "2017-07-15"
-            },
-            {
-                "title": "Sree",
-                "start": "2017-07-11",
-                "end": "2017-07-13"
-            }
-        ];
+        
         this.absences = absenses;
         if (this.absences) {
             this.absences.forEach((absence) => {

@@ -25,9 +25,7 @@ export class AddAbsenceComponent implements OnInit {
     constructor(private absenceService: AbsenceService, private userService: UserService) { }
 
     ngOnInit(): void {
-        this.userService.getAllUsers()
-            .subscribe(users => this.populateUsers(users),
-            error => this.setErrorMessage("Error getting users"));
+        this.loadUsers();
     }
 
     public onAbsenceSubmit() {
@@ -54,13 +52,11 @@ export class AddAbsenceComponent implements OnInit {
     }
 
     private clearForm(): void {
+        this.loadUsers();
+
         this.absence.startDate = void 0;
         this.absence.endDate = void 0;
-        this.absence.user.firstName = "";
-        this.absence.user.lastName = "";
-        this.absence.user.fullName = "";
-        this.absence.user.isActive = false;
-        this.absence.user.team = "";
+        this.absence.user = this.users[0];
         this.absence.comments = "";
         this.absence.isActive = false;
 
@@ -82,6 +78,12 @@ export class AddAbsenceComponent implements OnInit {
     private clearErrors(): void {
         this.errorMessage = "";
         this.hasError = false;
+    }
+
+    private loadUsers() {
+        this.userService.getAllUsers()
+            .subscribe(users => this.populateUsers(users),
+                error => this.setErrorMessage("Error getting users"));
     }
 
     private populateUsers(users: User[]): void {
