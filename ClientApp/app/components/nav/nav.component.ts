@@ -15,8 +15,6 @@ export class NavComponent {
     onSelectNav(nav: NavItem) {
         this.navItems.forEach((navItem) => navItem.isActive = false);
         nav.isActive = true;
-        $(".nav-btn").removeClass("is-active");
-        $(`#${nav.id}`).addClass("is-active");
         if (nav.name === 'Calendar') {
             this.router.navigate(['calendar']);
         }
