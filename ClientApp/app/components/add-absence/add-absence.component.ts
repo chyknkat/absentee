@@ -16,7 +16,8 @@ declare var moment: any;
 export class AddAbsenceComponent implements OnInit {
     public blankUser: User = new User("", "", "", true);
     @Input() users: User[] = [this.blankUser];
-    public userAbsences :Absence[] = [];
+    public userAbsences: Absence[] = [];
+    public absences: Absence[] = [];
     public hasError: boolean = false;
     public isSuccessful: boolean = false;
     public errorMessage: string = "";
@@ -27,6 +28,7 @@ export class AddAbsenceComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadUsers();
+        this.loadAbsences();
     }
 
     public onAbsenceSubmit() {
@@ -115,7 +117,31 @@ export class AddAbsenceComponent implements OnInit {
         if (errors > 0) {
             this.setErrorMessage("Absence on date(s) already exists.");
         } else {
-            this.setNewAbsence();
+            this.absences.forEach(absence => {
+                if (this.absence.id !== absence.id) {
+                    if ((this.absence.startDate >= moment(absence.startDate) &&
+                        this.absence.startDate < moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                    if ((this.absence.endDate >= moment(absence.startDate) &&
+                        this.absence.endDate <= moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                    if ((moment(absence.startDate) >= this.absence.startDate &&
+                        moment(absence.startDate) < this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                    if ((moment(absence.endDate) > this.absence.startDate &&
+                        moment(absence.endDate) <= this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                }
+            });
+            if (errors > 0) {
+                this.setErrorMessage("Too many people on your team are absent on date(s).");
+            } else {
+                this.setNewAbsence();
+            }
         }
     }
 
@@ -139,6 +165,22 @@ export class AddAbsenceComponent implements OnInit {
                 this.userAbsences.push(absence);
             }
         });
+    }
+    private loadAbsences() {
+        this.absenceService.getAllAbsences()
+            .subscribe(absences => this.populateAbsences(absences),
+            error => this.setErrorMessage("Could not load absences due to error."));
+    }
+
+    private populateAbsences(absenses: Absence[]) {
+        this.absences = [];
+        if (absenses) {
+            absenses.forEach(absence => {
+                if (absence.isActive) {
+                    this.absences.push(absence);
+                }
+            });
+        }
     }
 }
 

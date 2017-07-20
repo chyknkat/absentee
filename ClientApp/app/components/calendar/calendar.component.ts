@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild, AfterViewChecked  } from '@angular/core';
+﻿import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { Absence } from "../../absence";
 import { User } from "../../user";
 import { AbsenceService } from '../../services/absence.service';
@@ -32,7 +32,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     private tomorrow: Date = moment(new Date()).add('days', 1);
     public absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", false), "", false);
     @ViewChild("absenceEditorModal") public absenceEditorModal: ModalDirective;
-    
+
 
     constructor(private absenceService: AbsenceService) { }
 
@@ -53,18 +53,23 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     }
     private populateEvents(absenses: Absence[]): void {
         this.events = [];
-        this.absences = absenses;
+        this.absences = [];
+        if (absenses) {
+            absenses.forEach(absence => {
+                if (absence.isActive) {
+                    this.absences.push(absence);
+                }
+            });
+        }
         if (this.absences) {
             this.absences.forEach((absence) => {
-                if (absence.isActive) {
-                    this.events.push({
-                        "title": `${absence.user.firstName} ${absence.comments === null ? "" : absence.comments} `,
-                        "start": absence.startDate,
-                        "end": absence.endDate,
-                        "allDay": true,
-                        "id": absence.id
-                    });
-                }
+                this.events.push({
+                    "title": `${absence.user.firstName} ${absence.comments === null ? "" : absence.comments} `,
+                    "start": absence.startDate,
+                    "end": absence.endDate,
+                    "allDay": true,
+                    "id": absence.id
+                });
             });
         }
     }
@@ -76,7 +81,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
                 this.absence.startDate = new Date(absence.startDate);
                 this.absence.endDate = new Date(absence.endDate);
                 this.absenceEditorModal.show();
-                },
+            },
             error => this.error = error);
     }
 
@@ -100,21 +105,20 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         this.clearErrors();
         this.absenceService.toggleAbsenceActiveFlag(this.absence.id, false)
             .subscribe(response => {
-                    for (var i = 0; i < this.events.length; i++)
-                        if (this.events[i].id === this.absence.id) {
-                            this.events.splice(i, 1);
-                            break;
-                        }
-                    this.absenceEditorModal.hide();
-                },
+                for (var i = 0; i < this.events.length; i++)
+                    if (this.events[i].id === this.absence.id) {
+                        this.events.splice(i, 1);
+                        break;
+                    }
+                this.absenceEditorModal.hide();
+            },
             error => this.setErrorMessage("Your absence could not be deleted due to an error."));
     }
 
     private loadAbsences() {
-        this.absences = [];
         this.absenceService.getAllAbsences()
             .subscribe(absences => this.populateEvents(absences),
-                error => this.error = error);
+            error => this.error = error);
     }
 
     private getUserAbsences() {
@@ -159,7 +163,31 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         if (errors > 0) {
             this.setErrorMessage("Absence on date(s) already exists.");
         } else {
-            this.updateAbsence();
+            this.absences.forEach(absence => {
+                if (this.absence.id !== absence.id) {
+                    if ((this.absence.startDate >= moment(absence.startDate) &&
+                        this.absence.startDate < moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                    if ((this.absence.endDate >= moment(absence.startDate) &&
+                        this.absence.endDate <= moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                    if ((moment(absence.startDate) >= this.absence.startDate &&
+                        moment(absence.startDate) < this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                    if ((moment(absence.endDate) > this.absence.startDate &&
+                        moment(absence.endDate) <= this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                        errors++;
+                    }
+                }
+            });
+            if (errors > 0) {
+                this.setErrorMessage("Too many people on your team are absent on date(s).");
+            } else {
+                this.updateAbsence();
+            }
         }
     }
 
