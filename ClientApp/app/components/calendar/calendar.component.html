@@ -26,7 +26,7 @@
                         <label for="comments">Comments</label>
                         <input type="text" class="form-control" [(ngModel)]="absence.comments" placeholder="Comments" name="comments" id="comments" />
                     </div>
-                    <button class="btn btn-success" (click)="updateAbsence()">Update</button>
+                    <button class="btn btn-success" (click)="onUpdateAbsence()">Update</button>
                     <button class="btn btn-danger" (click)="deleteAbsence()">Delete</button>
                     <p *ngIf="hasError" class="error-message">{{errorMessage}}</p>
                     <p *ngIf="isSuccessful" class="success-message">Your absence has been updated.</p>

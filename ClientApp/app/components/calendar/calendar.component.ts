@@ -21,6 +21,7 @@ declare var moment: any;
 
 export class CalendarComponent implements OnInit, AfterViewChecked {
     public absences: Absence[];
+    public userAbsences: Absence[] = [];
     public events: any[] = [];
     public error: any;
     public errorMessage: string = "";
@@ -79,8 +80,9 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
             error => this.error = error);
     }
 
-    public updateAbsence() {
+    public onUpdateAbsence() {
         this.clearErrors();
+        this.isSuccessful = false;
         if (this.absence.startDate < moment()) {
             this.setErrorMessage("Start Date must be in the future");
             return;
@@ -90,11 +92,8 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
             this.setErrorMessage("Back in Office Date must be later than Start Date.");
             return;
         }
-        this.absenceService.updateAbsence(this.absence)
-            .subscribe(response => {
-                this.isSuccessful = true;
-                this.loadAbsences();
-            }, error => this.setErrorMessage("Your absence could not be updated due to an error."));
+
+        this.getUserAbsences();
     }
 
     public deleteAbsence() {
@@ -116,6 +115,60 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         this.absenceService.getAllAbsences()
             .subscribe(absences => this.populateEvents(absences),
                 error => this.error = error);
+    }
+
+    private getUserAbsences() {
+        this.absenceService.getAbsencesByUser(this.absence.user.id)
+            .subscribe(userAbsences => {
+                this.populateUserAbsences(userAbsences);
+                this.checkAbsenceExistence();
+            }, error => this.setErrorMessage("Error getting user's absences"));
+    }
+
+    private populateUserAbsences(absences: Absence[]): void {
+        this.userAbsences = [];
+        absences.forEach(absence => {
+            if (absence.isActive) {
+                this.userAbsences.push(absence);
+            }
+        });
+    }
+
+    private checkAbsenceExistence() {
+        var errors = 0;
+        this.userAbsences.forEach(absence => {
+            if (this.absence.id !== absence.id) {
+                if (this.absence.startDate >= moment(absence.startDate) &&
+                    this.absence.startDate < moment(absence.endDate)) {
+                    errors++;
+                }
+                if (this.absence.endDate >= moment(absence.startDate) &&
+                    this.absence.endDate <= moment(absence.endDate)) {
+                    errors++;
+                }
+                if (moment(absence.startDate) >= this.absence.startDate &&
+                    moment(absence.startDate) < this.absence.endDate) {
+                    errors++;
+                }
+                if (moment(absence.endDate) > this.absence.startDate &&
+                    moment(absence.endDate) <= this.absence.endDate) {
+                    errors++;
+                }
+            }
+        });
+        if (errors > 0) {
+            this.setErrorMessage("Absence on date(s) already exists.");
+        } else {
+            this.updateAbsence();
+        }
+    }
+
+    private updateAbsence() {
+        this.absenceService.updateAbsence(this.absence)
+            .subscribe(response => {
+                this.isSuccessful = true;
+                this.loadAbsences();
+            }, error => this.setErrorMessage("Your absence could not be updated due to an error."));
     }
 
     private setErrorMessage(message: string): void {
