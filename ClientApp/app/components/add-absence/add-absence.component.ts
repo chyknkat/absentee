@@ -16,12 +16,13 @@ declare var moment: any;
 export class AddAbsenceComponent implements OnInit {
     public blankUser: User = new User("", "", "", true);
     @Input() users: User[] = [this.blankUser];
+    public userAbsences :Absence[] = [];
     public hasError: boolean = false;
     public isSuccessful: boolean = false;
     public errorMessage: string = "";
     private tomorrow: Date = moment(new Date()).add('days', 1);
     @Input() absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", false), "", false);
-
+    
     constructor(private absenceService: AbsenceService, private userService: UserService) { }
 
     ngOnInit(): void {
@@ -47,8 +48,7 @@ export class AddAbsenceComponent implements OnInit {
             return;
         }
 
-        this.absenceService.addNewAbsence(this.absence)
-            .subscribe(response => this.resetAbsenceForm(), error => this.setErrorMessage("Could not add absence due to server error."));
+        this.getUserAbsences();
     }
 
     private resetAbsenceForm(): void {
@@ -88,6 +88,45 @@ export class AddAbsenceComponent implements OnInit {
                 error => this.setErrorMessage("Error getting users"));
     }
 
+    private getUserAbsences() {
+        this.absenceService.getAbsencesByUser(this.absence.user.id)
+            .subscribe(userAbsences => {
+                this.populateUserAbsences(userAbsences);
+                return this.checkAbsenceExistence();
+            }, error => {
+                this.setErrorMessage("Error getting user's absences");
+                return false;
+            });
+    }
+
+    private checkAbsenceExistence() {
+        var errors = 0;
+        this.userAbsences.forEach(absence => {
+            if (this.absence.startDate >= moment(absence.startDate) && this.absence.startDate < moment(absence.endDate)) {
+                errors++;
+            }
+            if (this.absence.endDate >= moment(absence.startDate) && this.absence.endDate <= moment(absence.endDate)) {
+                errors++;
+            }
+            if (moment(absence.startDate) >= this.absence.startDate && moment(absence.startDate) < this.absence.endDate) {
+                errors++;
+            }
+            if (moment(absence.endDate) > this.absence.startDate && moment(absence.endDate) <= this.absence.endDate) {
+                errors++;
+            }
+        });
+        if (errors > 0) {
+            this.setErrorMessage("Absence on date(s) already exists.");
+        } else {
+            this.setNewAbsence();
+        }
+    }
+
+    private setNewAbsence() {
+        this.absenceService.addNewAbsence(this.absence)
+            .subscribe(response => this.resetAbsenceForm(), error => this.setErrorMessage("Could not add absence due to server error."));
+    }
+
     private populateUsers(users: User[]): void {
         users.forEach((user) => {
             if (user.isActive) {
@@ -95,4 +134,14 @@ export class AddAbsenceComponent implements OnInit {
             }
         });
     }
+
+    private populateUserAbsences(absences: Absence[]): void {
+        this.userAbsences = [];
+        absences.forEach(absence => {
+            if (absence.isActive) {
+                this.userAbsences.push(absence);
+            }
+        });
+    }
 }
+
