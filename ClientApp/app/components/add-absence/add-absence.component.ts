@@ -92,11 +92,8 @@ export class AddAbsenceComponent implements OnInit {
         this.absenceService.getAbsencesByUser(this.absence.user.id)
             .subscribe(userAbsences => {
                 this.populateUserAbsences(userAbsences);
-                return this.checkAbsenceExistence();
-            }, error => {
-                this.setErrorMessage("Error getting user's absences");
-                return false;
-            });
+                this.checkAbsenceExistence();
+            }, error => this.setErrorMessage("Error getting user's absences"));
     }
 
     private checkAbsenceExistence() {
