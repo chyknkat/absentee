@@ -10,7 +10,9 @@ import { NavItem } from "../../nav-item";
 export class NavComponent {
     navItems: NavItem[] = [new NavItem("calendar", "Calendar", true), new NavItem("absence", "Add Absence", false), new NavItem("editUser", "Edit User", false)];
 
-    constructor(private router: Router) { }
+    constructor(private router: Router) {
+        this.router.navigate(['calendar']);
+    }
 
     onSelectNav(nav: NavItem) {
         this.navItems.forEach((navItem) => navItem.isActive = false);
