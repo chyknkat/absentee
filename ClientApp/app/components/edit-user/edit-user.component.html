@@ -1,17 +1,14 @@
-﻿<div class="row" *ngIf="isEdit">
+﻿<div class="row text-center" *ngIf="isEdit">
+    <button class="btn btn-info" (click)="addUserView()">Add User</button>
+</div>
+
+<div class="row" *ngIf="isEdit">
     <div class="col-lg-3"></div>
     <div class="col-lg-6 form-group">
         <label>Choose User</label>
-        <div class="row">
-            <div class="col-lg-9">
-                <select class="form-control" [(ngModel)]="user" name="user">
-                    <option *ngFor="let user of users" [ngValue]="user">{{user.fullName}}</option>
-                </select>
-            </div>
-            <div class="col-lg-3">
-                <button class="btn btn-info" (click)="addUserView()">Add User</button>
-            </div>
-        </div>
+        <select class="form-control" [(ngModel)]="user" name="user">
+            <option *ngFor="let user of users" [ngValue]="user">{{user.fullName}}</option>
+        </select>
     </div>
     <div class="col-lg-3"></div>
 </div>
