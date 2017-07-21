@@ -64,7 +64,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         if (this.absences) {
             this.absences.forEach((absence) => {
                 this.events.push({
-                    "title": `${absence.user.firstName} ${absence.comments === null ? "" : absence.comments} `,
+                    "title": `${absence.user.fullName} ${absence.comments === null ? "" : absence.comments} `,
                     "start": absence.startDate,
                     "end": absence.endDate,
                     "allDay": true,
@@ -77,6 +77,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     public openAbsenceEditor(e) {
         this.absenceService.getAbsenceById(e.calEvent.id)
             .subscribe(absence => {
+                this.clearErrors();
                 this.absence = absence;
                 this.absence.startDate = new Date(absence.startDate);
                 this.absence.endDate = new Date(absence.endDate);
@@ -146,7 +147,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
                     this.absence.startDate < moment(absence.endDate)) {
                     errors++;
                 }
-                if (this.absence.endDate >= moment(absence.startDate) &&
+                if (this.absence.endDate > moment(absence.startDate) &&
                     this.absence.endDate <= moment(absence.endDate)) {
                     errors++;
                 }
@@ -164,26 +165,30 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
             this.setErrorMessage("Absence on date(s) already exists.");
         } else {
             this.absences.forEach(absence => {
+                var teamMemberCount = 0;
                 if (this.absence.id !== absence.id) {
                     if ((this.absence.startDate >= moment(absence.startDate) &&
                         this.absence.startDate < moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
-                        errors++;
+                        teamMemberCount++;
                     }
-                    if ((this.absence.endDate >= moment(absence.startDate) &&
+                    if ((this.absence.endDate > moment(absence.startDate) &&
                         this.absence.endDate <= moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
-                        errors++;
+                        teamMemberCount++;
                     }
                     if ((moment(absence.startDate) >= this.absence.startDate &&
                         moment(absence.startDate) < this.absence.endDate) && this.absence.user.team === absence.user.team) {
-                        errors++;
+                        teamMemberCount++;
                     }
                     if ((moment(absence.endDate) > this.absence.startDate &&
                         moment(absence.endDate) <= this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                        teamMemberCount++;
+                    }
+                    if (teamMemberCount > 0) {
                         errors++;
                     }
                 }
             });
-            if (errors > 0) {
+            if (errors >= 2) {
                 this.setErrorMessage("Too many people on your team are absent on date(s).");
             } else {
                 this.updateAbsence();

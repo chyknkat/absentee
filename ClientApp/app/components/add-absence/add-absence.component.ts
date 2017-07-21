@@ -104,7 +104,7 @@ export class AddAbsenceComponent implements OnInit {
             if (this.absence.startDate >= moment(absence.startDate) && this.absence.startDate < moment(absence.endDate)) {
                 errors++;
             }
-            if (this.absence.endDate >= moment(absence.startDate) && this.absence.endDate <= moment(absence.endDate)) {
+            if (this.absence.endDate > moment(absence.startDate) && this.absence.endDate <= moment(absence.endDate)) {
                 errors++;
             }
             if (moment(absence.startDate) >= this.absence.startDate && moment(absence.startDate) < this.absence.endDate) {
@@ -118,26 +118,30 @@ export class AddAbsenceComponent implements OnInit {
             this.setErrorMessage("Absence on date(s) already exists.");
         } else {
             this.absences.forEach(absence => {
+                var teamMemberCount = 0;
                 if (this.absence.id !== absence.id) {
                     if ((this.absence.startDate >= moment(absence.startDate) &&
                         this.absence.startDate < moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
-                        errors++;
+                        teamMemberCount++;
                     }
-                    if ((this.absence.endDate >= moment(absence.startDate) &&
+                    if ((this.absence.endDate > moment(absence.startDate) &&
                         this.absence.endDate <= moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
-                        errors++;
+                        teamMemberCount++;
                     }
                     if ((moment(absence.startDate) >= this.absence.startDate &&
                         moment(absence.startDate) < this.absence.endDate) && this.absence.user.team === absence.user.team) {
-                        errors++;
+                        teamMemberCount++;
                     }
                     if ((moment(absence.endDate) > this.absence.startDate &&
                         moment(absence.endDate) <= this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                        teamMemberCount++;
+                    }
+                    if (teamMemberCount > 0) {
                         errors++;
                     }
                 }
             });
-            if (errors > 0) {
+            if (errors > 2) {
                 this.setErrorMessage("Too many people on your team are absent on date(s).");
             } else {
                 this.setNewAbsence();
