@@ -164,23 +164,34 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         if (errors > 0) {
             this.setErrorMessage("Absence on date(s) already exists.");
         } else {
+            this.checkTeamAbsences();
+        }
+    }
+
+    private checkTeamAbsences() {
+        var errors = 0;
+        if (this.absence.user.team !== "NoTeam") {
             this.absences.forEach(absence => {
                 var teamMemberCount = 0;
                 if (this.absence.id !== absence.id) {
                     if ((this.absence.startDate >= moment(absence.startDate) &&
-                        this.absence.startDate < moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
+                            this.absence.startDate < moment(absence.endDate)) &&
+                        this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
                     if ((this.absence.endDate > moment(absence.startDate) &&
-                        this.absence.endDate <= moment(absence.endDate)) && this.absence.user.team === absence.user.team) {
+                            this.absence.endDate <= moment(absence.endDate)) &&
+                        this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
                     if ((moment(absence.startDate) >= this.absence.startDate &&
-                        moment(absence.startDate) < this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                            moment(absence.startDate) < this.absence.endDate) &&
+                        this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
                     if ((moment(absence.endDate) > this.absence.startDate &&
-                        moment(absence.endDate) <= this.absence.endDate) && this.absence.user.team === absence.user.team) {
+                            moment(absence.endDate) <= this.absence.endDate) &&
+                        this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
                     if (teamMemberCount > 0) {
@@ -193,6 +204,8 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
             } else {
                 this.updateAbsence();
             }
+        } else {
+            this.updateAbsence();
         }
     }
 

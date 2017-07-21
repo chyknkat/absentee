@@ -23,7 +23,7 @@ export class AddAbsenceComponent implements OnInit {
     public errorMessage: string = "";
     private tomorrow: Date = moment(new Date()).add('days', 1);
     @Input() absence: Absence = new Absence(this.tomorrow, this.tomorrow, new User("", "", "", false), "", false);
-    
+
     constructor(private absenceService: AbsenceService, private userService: UserService) { }
 
     ngOnInit(): void {
@@ -87,7 +87,7 @@ export class AddAbsenceComponent implements OnInit {
     private loadUsers() {
         this.userService.getAllUsers()
             .subscribe(users => this.populateUsers(users),
-                error => this.setErrorMessage("Error getting users"));
+            error => this.setErrorMessage("Error getting users"));
     }
 
     private getUserAbsences() {
@@ -117,6 +117,13 @@ export class AddAbsenceComponent implements OnInit {
         if (errors > 0) {
             this.setErrorMessage("Absence on date(s) already exists.");
         } else {
+            this.checkTeamAbsences();
+        }
+    }
+
+    private checkTeamAbsences() {
+        var errors = 0;
+        if (this.absence.user.team !== "NoTeam") {
             this.absences.forEach(absence => {
                 var teamMemberCount = 0;
                 if (this.absence.id !== absence.id) {
@@ -141,11 +148,13 @@ export class AddAbsenceComponent implements OnInit {
                     }
                 }
             });
-            if (errors > 2) {
+            if (errors >= 2) {
                 this.setErrorMessage("Too many people on your team are absent on date(s).");
             } else {
                 this.setNewAbsence();
             }
+        } else {
+            this.setNewAbsence();
         }
     }
 
