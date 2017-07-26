@@ -10,6 +10,9 @@ import { NavItem } from "../../nav-item";
 export class NavComponent {
     navItems: NavItem[] = [new NavItem("calendar", "Calendar", true), new NavItem("absence", "Add Absence", false), new NavItem("editUser", "Edit User", false)];
     public isKonamiCode: boolean = false;
+    public b: string = "";
+    public a: string = "";
+    public m: string = "";
     constructor(private router: Router) {
         this.router.navigate(['calendar']);
     }
@@ -30,10 +33,27 @@ export class NavComponent {
 
     @HostListener('document:keypress', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {
-        setTimeout(() => {
+        if (event.key === "B" && this.b === "") {
+            this.b = event.key;
+        } else if (event.key === "A" && this.a === "" && this.b === "B") {
+            this.a = event.key;
+        }else if (event.key === "M" && this.m === "" && this.b === "B" && this.a === "A") {
+            this.m = event.key;
+        } else {
+            this.clearKonami();
+        }
+        if (this.b === "B" && this.a === "A" && this.m === "M") {
             this.isKonamiCode = true;
-        }, 10000);
-        
-        console.log(event.key);
+            setTimeout(() => {
+                this.isKonamiCode = false;
+                this.clearKonami();
+            }, 4000);
+        }
+    }
+
+    private clearKonami() {
+        this.b = "";
+        this.a = "";
+        this.m = "";
     }
 }

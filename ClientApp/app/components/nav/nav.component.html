@@ -2,8 +2,11 @@
     <li class="btn btn-lg nav-btn" id="{{nav.id}}" *ngFor="let nav of navItems" [class.is-active]="nav.isActive" (click)="onSelectNav(nav)">{{nav.name}}</li>
 </ul>
 
-<div *ngIf="isKonamiCode" class="text-center">
-    <img src="../../../../wwwroot/assets/InsTechLogoGif.gif" />
+<div *ngIf="isKonamiCode" class="container konami">
+    <div  class="text-center">
+        <img class="img-responsive konami-img" src="../../../../wwwroot/assets/InsTechLogoGifFast.gif" />
+    </div>
 </div>
+
 
 

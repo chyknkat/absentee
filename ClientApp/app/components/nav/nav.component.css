@@ -19,6 +19,15 @@
     text-align: center;
 }
 
+.konami {
+    position: absolute;
+    z-index: 9999;
+}
+
+.konami-img {
+    margin: auto;
+}
+
 @media screen and (max-width: 720px) {
     .nav-btn {
         margin: 10px auto;

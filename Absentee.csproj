@@ -19,7 +19,7 @@
     <Content Remove="ClientApp\**" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="wwwroot\assets\InsTechLogoGif.gif" />
+    <Content Include="wwwroot\assets\InsTechLogoGifFast.gif" />
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
