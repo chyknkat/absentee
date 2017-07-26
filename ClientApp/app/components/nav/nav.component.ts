@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavItem } from "../../nav-item";
 
@@ -9,7 +9,7 @@ import { NavItem } from "../../nav-item";
 })
 export class NavComponent {
     navItems: NavItem[] = [new NavItem("calendar", "Calendar", true), new NavItem("absence", "Add Absence", false), new NavItem("editUser", "Edit User", false)];
-
+    public isKonamiCode: boolean = false;
     constructor(private router: Router) {
         this.router.navigate(['calendar']);
     }
@@ -26,5 +26,14 @@ export class NavComponent {
         if (nav.name === 'Edit User') {
             this.router.navigate(['edituser']);
         }
+    }
+
+    @HostListener('document:keypress', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+        setTimeout(() => {
+            this.isKonamiCode = true;
+        }, 10000);
+        
+        console.log(event.key);
     }
 }
