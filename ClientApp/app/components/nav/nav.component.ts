@@ -8,7 +8,7 @@ import { NavItem } from "../../nav-item";
     styleUrls: ['/nav.component.css']
 })
 export class NavComponent {
-    navItems: NavItem[] = [new NavItem("calendar", "Calendar", true, false), new NavItem("absence", "Add Absence", false, false), new NavItem("editUser", "Edit User", false, false), new NavItem("reassurance", "Reassurance", false, false)];
+    navItems: NavItem[] = [new NavItem("calendar", "Calendar", true, false), new NavItem("addabsence", "Add Absence", false, false), new NavItem("edituser", "Edit User", false, false), new NavItem("reassurance", "Reassurance", false, false)];
     public isKonamiCode: boolean = false;
     public b: string = "";
     public a: string = "";
@@ -23,17 +23,8 @@ export class NavComponent {
         if (nav.name !== 'Reassurance') {
             this.navItems.forEach((navItem) => navItem.isActive = false);
             nav.isActive = true;
-        }
-       if (nav.name === 'Calendar') {
-            this.router.navigate(['calendar']);
-        }
-        if (nav.name === 'Add Absence') {
-            this.router.navigate(['addabsence']);
-        }
-        if (nav.name === 'Edit User') {
-            this.router.navigate(['edituser']);
-        }
-        if (nav.name === 'Reassurance') {
+            this.router.navigate([`${nav.id}`]);
+        } else {
             nav.isHidden = true;
             this.isReassurance = true;
             setTimeout(() => {
