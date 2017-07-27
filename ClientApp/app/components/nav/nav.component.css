@@ -13,6 +13,10 @@
         background-color: #ff8237;
     }
 
+    .nav-btn.is-hidden {
+        display: none
+    }
+
 .nav-ul {
     padding: 20px 0;
     list-style-type: none;
