@@ -28,6 +28,10 @@
     margin: auto;
 }
 
+.reassurance-gif {
+    margin: auto;
+}
+
 @media screen and (max-width: 720px) {
     .nav-btn {
         margin: 10px auto;
