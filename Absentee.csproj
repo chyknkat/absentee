@@ -21,6 +21,7 @@
   <ItemGroup>
     <Content Include="wwwroot\assets\dancing.gif" />
     <Content Include="wwwroot\assets\InsTechLogoGifFast.gif" />
+    <Content Include="wwwroot\assets\tableFlip.gif" />
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
