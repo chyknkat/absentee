@@ -8,16 +8,19 @@ import { NavItem } from "../../nav-item";
     styleUrls: ['/nav.component.css']
 })
 export class NavComponent {
-    navItems: NavItem[] = [new NavItem("calendar", "Calendar", true), new NavItem("absence", "Add Absence", false), new NavItem("editUser", "Edit User", false)];
+    navItems: NavItem[] = [new NavItem("calendar", "Calendar", true), new NavItem("absence", "Add Absence", false), new NavItem("editUser", "Edit User", false), new NavItem("reassurance", "Reassurance", false)];
     public isKonamiCode: boolean = false;
     public b: string = "";
     public a: string = "";
     public m: string = "";
+    public isReassurance: boolean = false;
+
     constructor(private router: Router) {
         this.router.navigate(['calendar']);
     }
 
     onSelectNav(nav: NavItem) {
+        this.isReassurance = false;
         this.navItems.forEach((navItem) => navItem.isActive = false);
         nav.isActive = true;
         if (nav.name === 'Calendar') {
@@ -28,6 +31,12 @@ export class NavComponent {
         }
         if (nav.name === 'Edit User') {
             this.router.navigate(['edituser']);
+        }
+        if (nav.name === 'Reassurance') {
+            this.isReassurance = true;
+            setTimeout(() => {
+                this.isReassurance = false;
+            }, 10000);
         }
     }
 
