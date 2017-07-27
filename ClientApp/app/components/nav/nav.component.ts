@@ -20,7 +20,6 @@ export class NavComponent {
     }
 
     onSelectNav(nav: NavItem) {
-        this.isReassurance = false;
         this.navItems.forEach((navItem) => navItem.isActive = false);
         nav.isActive = true;
         if (nav.name === 'Calendar') {
