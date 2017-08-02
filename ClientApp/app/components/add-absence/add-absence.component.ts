@@ -14,8 +14,7 @@ declare var moment: any;
     providers: [AbsenceService, UserService]
 })
 export class AddAbsenceComponent implements OnInit {
-    public blankUser: User = new User("", "", "", true);
-    @Input() users: User[] = [this.blankUser];
+    @Input() users: User[] = [];
     public userAbsences: Absence[] = [];
     public absences: Absence[] = [];
     public hasError: boolean = false;
@@ -85,7 +84,7 @@ export class AddAbsenceComponent implements OnInit {
     }
 
     private loadUsers() {
-        this.users = [this.blankUser];
+        this.users = [];
         this.userService.getAllUsers()
             .subscribe(users => this.populateUsers(users),
             error => this.setErrorMessage("Error getting users"));
