@@ -8,8 +8,12 @@ import { NavItem } from "../../nav-item";
     styleUrls: ['/nav.component.css']
 })
 export class NavComponent {
-    navItems: NavItem[] = [new NavItem("calendar", "Calendar", true, false), new NavItem("addabsence", "Add Absence", false, false), new NavItem("edituser", "Edit User", false, false), new NavItem("reassurance", "Reassurance", false, false)];
+    navItems: NavItem[] = [new NavItem("calendar", "Calendar", true, true), new NavItem("addabsence", "Add Absence", false, true), new NavItem("edituser", "Edit User", false, true), new NavItem("reassurance", "Reassurance", false, false)];
+    public isLoggedIn: boolean = false;
     public isKonamiCode: boolean = false;
+    public isWrongCode: boolean = false;
+    public loginCode: string = "";
+    private passcode: string = "Password";
     public b: string = "";
     public a: string = "";
     public m: string = "";
@@ -31,6 +35,16 @@ export class NavComponent {
                 this.isReassurance = false;
                 nav.isHidden = false;
             }, 10000);
+        }
+    }
+
+    public login() {
+        this.isWrongCode = false;
+        if (this.loginCode === this.passcode) {
+            this.isLoggedIn = true;
+            this.navItems.forEach(n => n.isHidden = false);
+        } else {
+            this.isWrongCode = true;
         }
     }
 

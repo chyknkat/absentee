@@ -36,6 +36,13 @@
     margin: auto;
 }
 
+.error-message {
+    font-size: 1.22em;
+    color: rgb(222, 8, 8);
+    font-weight: bold;
+    margin-top: 10px;
+}
+
 @media screen and (max-width: 720px) {
     .nav-btn {
         margin: 10px auto;

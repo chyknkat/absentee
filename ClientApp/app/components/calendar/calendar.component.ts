@@ -27,6 +27,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     public errorMessage: string = "";
     public hasError: boolean = false;
     public isSuccessful: boolean = false;
+    public isLoggedIn:boolean = false;
     public headerConfig: any;
     public dialogVisible: boolean = false;
     private tomorrow: Date = moment(new Date()).add('days', 1);
@@ -75,15 +76,20 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     }
 
     public openAbsenceEditor(e) {
-        this.absenceService.getAbsenceById(e.calEvent.id)
-            .subscribe(absence => {
-                this.clearErrors();
-                this.absence = absence;
-                this.absence.startDate = new Date(absence.startDate);
-                this.absence.endDate = new Date(absence.endDate);
-                this.absenceEditorModal.show();
-            },
-            error => this.error = error);
+        if (this.isLoggedIn) {
+            this.absenceService.getAbsenceById(e.calEvent.id)
+                .subscribe(absence => {
+                        this.clearErrors();
+                        this.absence = absence;
+                        this.absence.startDate = new Date(absence.startDate);
+                        this.absence.endDate = new Date(absence.endDate);
+                        this.absenceEditorModal.show();
+                    },
+                    error => this.error = error);
+        } else {
+            return;
+        }
+        
     }
 
     public onUpdateAbsence() {

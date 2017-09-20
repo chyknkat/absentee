@@ -1,4 +1,14 @@
-﻿<ul class="nav-ul">
+﻿<form #loginForm="ngForm" *ngIf="!isLoggedIn">
+    <div class="form-group">
+        <label for="login">Login</label>
+        <input type="text" class="form-control" [(ngModel)]="loginCode" placeholder="Login Code" name="login" id="login" />
+    </div>
+    <button class="btn btn-success" (click)="login()">Login</button>
+    <h1 class="error-message" *ngIf="isWrongCode">WRONG!</h1>
+    
+
+</form>
+<ul class="nav-ul">
     <li class="btn btn-lg nav-btn" id="{{nav.id}}" *ngFor="let nav of navItems" [class.is-active]="nav.isActive" [class.is-hidden]="nav.isHidden" (click)="onSelectNav(nav)">{{nav.name}}</li>
 </ul>
 
