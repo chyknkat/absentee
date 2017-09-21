@@ -1,11 +1,13 @@
 ﻿import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavItem } from "../../nav-item";
+import {LoginService} from '../../services/login.service';
 
 @Component({
     selector: 'navigation',
     templateUrl: '/nav.component.html',
-    styleUrls: ['/nav.component.css']
+    styleUrls: ['/nav.component.css'],
+    providers: [LoginService]
 })
 export class NavComponent {
     navItems: NavItem[] = [new NavItem("calendar", "Calendar", true, true), new NavItem("addabsence", "Add Absence", false, true), new NavItem("edituser", "Edit User", false, true), new NavItem("reassurance", "Reassurance", false, false)];
@@ -19,8 +21,8 @@ export class NavComponent {
     public m: string = "";
     public isReassurance: boolean = false;
 
-    constructor(private router: Router) {
-        this.router.navigate(['calendar-logged-off']);
+    constructor(private router: Router, private loginService: LoginService) {
+        this.router.navigate(['calendar']);
     }
 
     onSelectNav(nav: NavItem) {
@@ -43,7 +45,8 @@ export class NavComponent {
         if (this.loginCode === this.passcode) {
             this.isLoggedIn = true;
             this.navItems.forEach(n => n.isHidden = false);
-            this.router.navigate(['calendar']);
+            this.loginService.updateLoginStatus(true);
+            //this.router.navigate(['calendar']);
         } else {
             this.isWrongCode = true;
         }

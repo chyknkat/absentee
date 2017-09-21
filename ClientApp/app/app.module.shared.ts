@@ -16,6 +16,7 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
 
 import { AbsenceService } from './services/absence.service';
 import { UserService } from './services/user.service';
+import { LoginService } from './services/login.service';
 
 (window as any).jQuery = (window as any).$ = jQuery;
 
@@ -31,12 +32,12 @@ export const sharedConfig: NgModule = {
     ],
     imports: [
         RouterModule.forRoot([
-            { path: '', redirectTo: 'calendar-logged-off', pathMatch: 'full' },
+            { path: '', redirectTo: 'calendar', pathMatch: 'full' },
             { path: 'calendar', component: CalendarComponent },
             { path: 'calendar-logged-off', component: CalendarLoggedOffComponent },
             { path: 'addabsence', component: AddAbsenceComponent },
             { path: 'edituser', component: EditUserComponent },
-            { path: '**', redirectTo: 'calendar-logged-off' }
+            { path: '**', redirectTo: 'calendar' }
         ]),
         FormsModule,
         HttpModule,
@@ -44,5 +45,5 @@ export const sharedConfig: NgModule = {
         ModalModule.forRoot(),
         ScheduleModule
     ],
-    providers: [ AbsenceService, UserService ]
+    providers: [AbsenceService, UserService, LoginService ]
 };

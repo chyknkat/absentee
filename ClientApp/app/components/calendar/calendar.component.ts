@@ -2,6 +2,7 @@
 import { Absence } from "../../absence";
 import { User } from "../../user";
 import { AbsenceService } from '../../services/absence.service';
+import { LoginService } from '../../services/login.service';
 import { Observable } from 'rxjs/Observable';
 import { ScheduleModule } from 'primeng/primeng';
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -16,7 +17,7 @@ declare var moment: any;
     selector: 'calendar',
     templateUrl: '/calendar.component.html',
     styleUrls: ['/calendar.component.css'],
-    providers: [AbsenceService]
+    providers: [AbsenceService, LoginService]
 })
 
 export class CalendarComponent implements OnInit, AfterViewChecked {
@@ -27,6 +28,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     public errorMessage: string = "";
     public hasError: boolean = false;
     public isSuccessful: boolean = false;
+    public isLoggedIn: any = false;
     public headerConfig: any;
     public dialogVisible: boolean = false;
     private tomorrow: Date = moment(new Date()).add('days', 1);
@@ -34,7 +36,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     @ViewChild("absenceEditorModal") public absenceEditorModal: ModalDirective;
 
 
-    constructor(private absenceService: AbsenceService) { }
+    constructor(private absenceService: AbsenceService, private loginService: LoginService) { }
 
     ngOnInit(): void {
         this.headerConfig = {
@@ -75,15 +77,22 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     }
 
     public openAbsenceEditor(e) {
-        this.absenceService.getAbsenceById(e.calEvent.id)
-            .subscribe(absence => {
-                this.clearErrors();
-                this.absence = absence;
-                this.absence.startDate = new Date(absence.startDate);
-                this.absence.endDate = new Date(absence.endDate);
-                this.absenceEditorModal.show();
-            },
-            error => this.error = error);
+        this.checkLogin();
+        console.log(this.isLoggedIn);
+        if (this.isLoggedIn) {
+            this.absenceService.getAbsenceById(e.calEvent.id)
+                .subscribe(absence => {
+                        this.clearErrors();
+                        this.absence = absence;
+                        this.absence.startDate = new Date(absence.startDate);
+                        this.absence.endDate = new Date(absence.endDate);
+                        this.absenceEditorModal.show();
+                    },
+                    error => this.error = error);
+        } else {
+            return;
+        }
+        
     }
 
     public onUpdateAbsence() {
@@ -114,6 +123,10 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
                 this.absenceEditorModal.hide();
             },
             error => this.setErrorMessage("Your absence could not be deleted due to an error."));
+    }
+
+    private checkLogin() {
+        this.loginService.getLoginStatus().subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
     }
 
     private loadAbsences() {
