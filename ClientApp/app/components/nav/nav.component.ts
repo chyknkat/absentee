@@ -20,7 +20,7 @@ export class NavComponent {
     public isReassurance: boolean = false;
 
     constructor(private router: Router) {
-        this.router.navigate(['calendar']);
+        this.router.navigate(['calendar-logged-off']);
     }
 
     onSelectNav(nav: NavItem) {
@@ -43,6 +43,7 @@ export class NavComponent {
         if (this.loginCode === this.passcode) {
             this.isLoggedIn = true;
             this.navItems.forEach(n => n.isHidden = false);
+            this.router.navigate(['calendar']);
         } else {
             this.isWrongCode = true;
         }

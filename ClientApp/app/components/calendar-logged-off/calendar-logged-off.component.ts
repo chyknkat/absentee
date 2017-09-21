@@ -13,13 +13,13 @@ import * as moment from 'moment';
 declare var moment: any;
 
 @Component({
-    selector: 'calendar',
-    templateUrl: '/calendar.component.html',
-    styleUrls: ['/calendar.component.css'],
+    selector: 'calendar-logged-off',
+    templateUrl: '/calendar-logged-off.component.html',
+    styleUrls: ['/calendar-logged-off.component.css'],
     providers: [AbsenceService]
 })
 
-export class CalendarComponent implements OnInit, AfterViewChecked {
+export class CalendarLoggedOffComponent implements OnInit, AfterViewChecked {
     public absences: Absence[];
     public userAbsences: Absence[] = [];
     public events: any[] = [];
@@ -27,6 +27,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     public errorMessage: string = "";
     public hasError: boolean = false;
     public isSuccessful: boolean = false;
+    public isLoggedIn:boolean = false;
     public headerConfig: any;
     public dialogVisible: boolean = false;
     private tomorrow: Date = moment(new Date()).add('days', 1);
@@ -75,15 +76,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     }
 
     public openAbsenceEditor(e) {
-        this.absenceService.getAbsenceById(e.calEvent.id)
-            .subscribe(absence => {
-                this.clearErrors();
-                this.absence = absence;
-                this.absence.startDate = new Date(absence.startDate);
-                this.absence.endDate = new Date(absence.endDate);
-                this.absenceEditorModal.show();
-            },
-            error => this.error = error);
+            return;
     }
 
     public onUpdateAbsence() {
@@ -175,22 +168,22 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
                 var teamMemberCount = 0;
                 if (this.absence.id !== absence.id) {
                     if ((this.absence.startDate >= moment(absence.startDate) &&
-                        this.absence.startDate < moment(absence.endDate)) &&
+                            this.absence.startDate < moment(absence.endDate)) &&
                         this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
                     if ((this.absence.endDate > moment(absence.startDate) &&
-                        this.absence.endDate <= moment(absence.endDate)) &&
+                            this.absence.endDate <= moment(absence.endDate)) &&
                         this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
                     if ((moment(absence.startDate) >= this.absence.startDate &&
-                        moment(absence.startDate) < this.absence.endDate) &&
+                            moment(absence.startDate) < this.absence.endDate) &&
                         this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
                     if ((moment(absence.endDate) > this.absence.startDate &&
-                        moment(absence.endDate) <= this.absence.endDate) &&
+                            moment(absence.endDate) <= this.absence.endDate) &&
                         this.absence.user.team === absence.user.team) {
                         teamMemberCount++;
                     }
