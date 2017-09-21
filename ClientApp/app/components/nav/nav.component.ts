@@ -13,7 +13,7 @@ export class NavComponent {
     public isKonamiCode: boolean = false;
     public isWrongCode: boolean = false;
     public loginCode: string = "";
-    private passcode: string = "Password";
+    private passcode: string = "May the odds be ever in your favor";
     public b: string = "";
     public a: string = "";
     public m: string = "";
